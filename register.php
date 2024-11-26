@@ -10,5 +10,16 @@ require_once ROOT . '/incs/functions.php';
 
 $title = 'Register';
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { // '==' сравнивает только значения 5 == '5'; '===' по типу (в JS);
+    $data = load(['name', 'email', 'password']);
+    $validate = check_required_fields($data);
+    dump($validate);
+}
+
+
 require_once VIEWS . '/register.tpl.php';
+
+
+
+
 
