@@ -10,12 +10,14 @@
              <form method="post">   <!-- если action не указывать, форма отправится на текущую страницу -->
 
                  <div class="form-floating mb-3">
-                     <input name="name" type="text" class="form-control" id="name" placeholder="Name">
+                     <input name="name" type="text" class="form-control" id="name" placeholder="Name"
+                            value="<?= old('name') ?>">
                      <label for="name">Name</label>
                  </div>
 
                  <div class="form-floating mb-3">
-                     <input name="email" type="email" class="form-control" id="email" placeholder="Email">
+                     <input name="email" type="email" class="form-control" id="email" placeholder="Email"
+                            value="<?= old('email') ?>">
                      <label for="email">Email</label>
                  </div>
 

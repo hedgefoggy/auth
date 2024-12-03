@@ -12,8 +12,17 @@ $title = 'Register';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') { // '==' сравнивает только значения 5 == '5'; '===' по типу (в JS);
     $data = load(['name', 'email', 'password']);
-    $validate = check_required_fields($data);
-    dump($validate);
+    if (true === ($validate = check_required_fields($data))) {
+        if (register($data)) {
+            header("Location: login.php");
+            die;
+        }
+//        $_SESSION['success'] = 'OK';
+    } else {
+        $_SESSION['errors'] = get_errors($validate);
+    }
+
+//    dump($validate);
 }
 
 
