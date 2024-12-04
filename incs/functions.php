@@ -52,6 +52,12 @@ function old(string $name, $post = true): string // оставляет поля 
     return isset($load_data[$name]) ? h($load_data[$name]) : '';
 }
 
+function redirect(string $url)
+{
+    header("Location: {$url}");
+    die;
+}
+
 function get_errors(array $errors): string
 {
     $html = '<ul class="list-unstyled">';
@@ -77,11 +83,9 @@ function get_alerts()//: void
 function register(array $data): bool
 {
     global $db;
-    $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE email = ? /* ? */"); //проверка email
-    $stmt->execute([
-        $data['email'],
-        //$data['name'] второй ?
-    ]);
+    $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE email = ?"); //проверка email
+    $stmt->execute([$data['email']]);
+
     //если email уже есть - выдаем ошибку, завершаем функцию
     if ($stmt->fetchColumn()) {
         $_SESSION['errors'] = 'This email is already taken';
@@ -92,4 +96,38 @@ function register(array $data): bool
     $stmt->execute($data); //уже массив
     $_SESSION['success'] = "You have successfully registered";
     return true;
+}
+
+function login(array $data): bool
+{
+    global $db;
+    $stmt = $db->prepare("SELECT * FROM users WHERE email = ? /* ? */");
+    $stmt->execute([$data['email']]);
+    if ($row = $stmt->fetch()) {
+        if (!password_verify($data['password'], $row['password'])) {
+            $_SESSION['errors'] = 'Wrong email or password';
+            return false;
+        }
+    } else {
+        $_SESSION['errors'] = 'Wrong email or password';
+        return false;
+    }
+
+//    $_SESSION['user']['name'] = $row['name'];
+//    $_SESSION['user']['email'] = $row['email'];
+//    $_SESSION['user']['id'] = $row['id'];
+
+    foreach ($row as $key => $value) {
+        if ($key != 'password') {
+            $_SESSION['user'][$key] = $value;
+        }
+    }
+
+    $_SESSION['success'] = "You have successfully logged";
+    return true;
+}
+
+function check_auth(): bool
+{
+    return isset($_SESSION['user']);
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: MySQL-8.2
--- Generation Time: Nov 25, 2024 at 01:34 PM
+-- Generation Time: Dec 04, 2024 at 05:23 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.3.6
 
@@ -35,6 +35,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
+(1, 'Kuzma', 'kuzma@soap.clean', '$2y$10$dZm3XfK/mmm7gew8Psdxze3QQ7FHOwiNnLxmFHzo0WRgDJqLeLCXW');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -42,7 +49,8 @@ CREATE TABLE `users` (
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -52,7 +60,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

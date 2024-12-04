@@ -7,6 +7,9 @@ require_once ROOT . '/incs/functions.php';
 
 //var_dump($db);
 
+if (check_auth()) {
+    redirect('secret.php');
+}
 
 $title = 'Register';
 
@@ -14,10 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { // '==' сравнивает тол�
     $data = load(['name', 'email', 'password']);
     if (true === ($validate = check_required_fields($data))) {
         if (register($data)) {
-            header("Location: login.php");
-            die;
+            redirect('login.php');
         }
-//        $_SESSION['success'] = 'OK';
     } else {
         $_SESSION['errors'] = get_errors($validate);
     }
